@@ -9,11 +9,11 @@ public class ReflexVacuumEnvironment {
 
     public ReflexVacuumEnvironment() {
         Map<String, String> locationState = new LinkedHashMap<>();
-        locationState.put("A", "dirty");
-        locationState.put("B", "dirty");
+        locationState.put("A", "OBFUSCATED");
+        locationState.put("B", "OBFUSCATED");
         locationState.put("C", "OBFUSCATED");
-        locationState.put("D", "clean");
-        locationState.put("E", "dirty");
+        locationState.put("D", "OBFUSCATED");
+        locationState.put("E", "OBFUSCATED");
 
         List<String> states = new ArrayList<>();
         states.add("dirty");

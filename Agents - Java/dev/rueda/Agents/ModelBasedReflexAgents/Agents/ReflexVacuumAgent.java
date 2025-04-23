@@ -84,6 +84,7 @@ public class ReflexVacuumAgent {
             if ("dirty".equals(state)) {
                 this.clean();
             } else if ("clean".equals(state)) {
+                System.out.println(location + " is clean.");
                 Iterator<String> iterator = this.internalModel.keySet().stream().iterator();
                 String previous = null;
                 while (iterator.hasNext()) {
@@ -123,7 +124,7 @@ public class ReflexVacuumAgent {
                 desobfuscate();
             }
 
-            if (!internalModel.containsValue("dirty")) {
+            if (!internalModel.containsValue("dirty") && !internalModel.containsValue("OBFUSCATED")) {
                 break;
             }
         }
@@ -153,7 +154,9 @@ public class ReflexVacuumAgent {
         if ("dirty".equals(state)) {
             this.clean();
         } else if ("OBFUSCATED".equals(state)) {
-            desobfuscate();
+            this.desobfuscate();
         }
+
+        System.out.println(location + " is clean.");
     }
 }
