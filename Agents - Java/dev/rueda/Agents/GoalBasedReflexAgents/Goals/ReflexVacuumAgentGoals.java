@@ -19,7 +19,7 @@ public enum ReflexVacuumAgentGoals {
             case CLEAN_DIRTY_LOCATIONS:
                 return (envSize * moveCost * 4) + (envSize * cleanCost);
             case CHARGE_BATTERY:
-                return 0;
+                return (envSize * moveCost);
             case IDLE:
                 return 0;
             default:
