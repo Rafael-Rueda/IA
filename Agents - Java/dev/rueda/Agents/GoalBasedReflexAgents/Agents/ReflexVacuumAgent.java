@@ -144,8 +144,25 @@ public class ReflexVacuumAgent {
         if (this.battery - estimatedCost < 0) {
             System.out.println("[!] Battery insufficient for the next goal. Scheduling recharge before proceeding.");
             this.goal.push(ReflexVacuumAgentGoals.CHARGE_BATTERY);
-            if (this.goal.peek().estimateCost(this) < 0) {
+            if (this.battery - this.goal.peek().estimateCost(this) < 0) {
+                System.out.println("The agent's battery is not sufficient to reach the recharge area. " +
+                        "Please, manually recharge the battery.\n");
+                System.exit(0);
+            }
+        }
+    }
 
+    private void checkGoal(ReflexVacuumAgentGoals goal) {
+
+        double estimatedCost = goal.estimateCost(this);
+
+        if (this.battery - estimatedCost < 0) {
+            System.out.println("[!] Battery insufficient for the next goal. Scheduling recharge before proceeding.");
+            this.goal.push(ReflexVacuumAgentGoals.CHARGE_BATTERY);
+            if (this.battery - this.goal.peek().estimateCost(this) < 0) {
+                System.out.println("The agent's battery is not sufficient to reach the recharge area. " +
+                        "Please, manually recharge the battery.\n");
+                System.exit(0);
             }
         }
     }
@@ -194,13 +211,13 @@ public class ReflexVacuumAgent {
         this.internalModel = locationState;
     }
 
-    private void desobfuscate() {
+    private void deobfuscate() {
         Iterator<String> iterator = this.internalModel.keySet().stream().iterator();
         String previous = null;
         String key = null;
         String oldDirection = this.moving;
 
-        System.out.println("[!] Desobfuscating " + this.location + "...");
+        System.out.println("[!] Deobfuscating " + this.location + "...");
 
         while (iterator.hasNext()) {
             this.moving = "right";
@@ -227,6 +244,7 @@ public class ReflexVacuumAgent {
                 System.out.println("Impossible to move.");
             }
         }
+        this.environment.setLocationState(internalModel);
         this.environment.reReadLocationState(this.location);
         this.internalModel = this.environment.getLocationState();
         this.moving = oldDirection;
@@ -506,11 +524,11 @@ public class ReflexVacuumAgent {
                     previous = key;
                 }
             } else if ("OBFUSCATED".equals(state)) {
-                desobfuscate();
+                deobfuscate();
             }
 
             if (!internalModel.containsValue("dirty") && !internalModel.containsValue("OBFUSCATED")) {
-                System.out.println("Nothing to clean/desobfuscate.");
+                System.out.println("Nothing to clean/deobfuscate.");
                 break;
             }
         }
@@ -526,16 +544,19 @@ public class ReflexVacuumAgent {
                 ReflexVacuumAgentGoals goal = this.goal.pop();
                 switch (goal) {
                     case MAP_ENVIRONMENT: {
+                        checkGoal(goal);
                         map();
                         showBattery();
                         break;
                     }
                     case CLEAN_DIRTY_LOCATIONS: {
+                        checkGoal(goal);
                         reflex();
                         showBattery();
                         break;
                     }
                     case CHARGE_BATTERY: {
+                        checkGoal(goal);
                         rechargeBattery();
                         showBattery();
                         break;
@@ -574,7 +595,7 @@ public class ReflexVacuumAgent {
         if ("dirty".equals(state)) {
             this.clean();
         } else if ("OBFUSCATED".equals(state)) {
-            this.desobfuscate();
+            this.deobfuscate();
         }
 
         System.out.println(location + " is clean.");
