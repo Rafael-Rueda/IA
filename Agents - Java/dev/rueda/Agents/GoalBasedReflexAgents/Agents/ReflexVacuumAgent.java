@@ -42,12 +42,15 @@ public class ReflexVacuumAgent {
     public int getEnvironmentSize() {
         return this.environmentSize;
     }
+
     public double getMoveCost() {
         return this.moveCost;
     }
+
     public double getCleanCost() {
         return this.cleanCost;
     }
+
     public double getBattery() {
         return this.battery;
     }
@@ -414,7 +417,9 @@ public class ReflexVacuumAgent {
         } else {
             System.out.println("Environment already mounted. Mapping the current environment looking for states...\n");
 
-            int locationAmount = this.internalModel.size();
+            List<String> keys = new ArrayList<>(this.internalModel.keySet());
+
+            int locationAmount = keys.size();
             int locationAmountLeft =
                     (int) this.internalModel.keySet().stream()
                             .takeWhile(key -> !key.equals(this.location))
@@ -426,27 +431,29 @@ public class ReflexVacuumAgent {
             if (locationAmountLeft > locationAmountRight) {
                 this.moving = "right";
 
-                for (int i = 1; i <= locationAmountRight; i++) {
-                    move(this.moving, numberToLetter(locationAmountLeft + i) + "");
+                if (locationAmountRight != 0) {
+                    for (int i = 1; i <= locationAmountRight; i++) {
+                        move(this.moving, keys.get(locationAmountLeft + i));
+                    }
                 }
 
                 this.moving = "left";
 
                 for (int i = locationAmount - 2; i >= 0; i--) {
-                    move(this.moving, numberToLetter(i) + "");
+                    move(this.moving, keys.get(i));
                     this.internalModel.put(this.location, this.environment.randomState());
                 }
             } else {
                 this.moving = "left";
 
                 for (int i = 1; i <= locationAmountLeft; i++) {
-                    move(this.moving, numberToLetter(locationAmount - locationAmountRight - i - 1) + "");
+                    move(this.moving, keys.get(locationAmount - locationAmountRight - i - 1));
                 }
 
                 this.moving = "right";
 
                 for (int i = 1; i < locationAmount; i++) {
-                    move(this.moving, numberToLetter(i) + "");
+                    move(this.moving, keys.get(i));
                     this.internalModel.put(this.location, this.environment.randomState());
                 }
             }
