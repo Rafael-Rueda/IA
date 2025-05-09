@@ -3,7 +3,6 @@ package dev.rueda.Searches.BreadthSearch;
 import dev.rueda.Searches.Environment.City;
 import dev.rueda.Searches.Environment.Environment;
 
-import java.sql.Array;
 import java.util.*;
 
 public class BreadthSearch {
@@ -65,9 +64,6 @@ public class BreadthSearch {
                 queue.add(neighbor);
                 pathPrev.put(neighbor, current);
             }
-
-
-
         }
     }
     public static void main(String[] args) {
