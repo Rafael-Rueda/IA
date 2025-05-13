@@ -1,4 +1,4 @@
-package dev.rueda.Searches.BreadthSearch;
+package dev.rueda.Searches.SearchAlgorithms.BreadthSearch;
 
 import dev.rueda.Searches.Environment.City;
 import dev.rueda.Searches.Environment.Environment;
@@ -67,7 +67,7 @@ public class BreadthSearch {
         }
     }
     public static void main(String[] args) {
-        Environment env = new Environment("random");
+        Environment env = new Environment("random", "");
         BreadthSearch search = new BreadthSearch(env);
         search.search(env.getLocations()[11]);
     }

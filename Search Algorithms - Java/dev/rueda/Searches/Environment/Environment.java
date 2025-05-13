@@ -2,6 +2,8 @@ package dev.rueda.Searches.Environment;
 
 import dev.rueda.Searches.DataStructures.BinarySearchTree;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Random;
 
@@ -11,7 +13,7 @@ public class Environment {
     private final City beginning;
     public final BinarySearchTree<City> tree;
 
-    public Environment(String type) {
+    public Environment(String type, String cityName) {
         this.locations = new City[12];
 
         locations[0] = new City("São Paulo", 11895578, 1521.11, -23.5505, -46.6333);
@@ -57,7 +59,8 @@ public class Environment {
             Random random = new Random();
             this.beginning = locations[random.nextInt(locations.length)];
         } else if (type.equals("default")) {
-            this.beginning = locations[0]; // São Paulo
+            this.beginning = Arrays.stream(locations).filter(loc -> loc.getName() == cityName).findFirst()
+                    .orElseThrow(() -> new IllegalArgumentException("City not found: " + cityName));
         } else {
             throw new IllegalArgumentException("Invalid environment type.");
         }
