@@ -3,9 +3,7 @@ package dev.rueda.Searches.Environment;
 import dev.rueda.Searches.DataStructures.BinarySearchTree;
 
 import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Random;
+import java.util.*;
 
 public class Environment {
 
@@ -29,31 +27,80 @@ public class Environment {
         locations[10] = new City("Belém", 1398531, 1059.40, -1.4558, -48.4902);
         locations[11] = new City("Porto Alegre", 1483771, 496.80, -30.0346, -51.2177);
 
-        // Neightbors
-        // São Paulo
-        locations[0].setNeighbors(new City[]{locations[1], locations[5], locations[7]});
-        // Rio de Janeiro
-        locations[1].setNeighbors(new City[]{locations[0], locations[5]});
-        // Brasília
-        locations[2].setNeighbors(new City[]{locations[5], locations[9]});
-        // Fortaleza
-        locations[3].setNeighbors(new City[]{locations[8], locations[10]});
-        // Salvador
-        locations[4].setNeighbors(new City[]{locations[5], locations[8]});
-        // Belo Horizonte
-        locations[5].setNeighbors(new City[]{locations[0], locations[1], locations[2], locations[4]});
-        // Manaus
-        locations[6].setNeighbors(new City[]{locations[10]});
-        // Curitiba
-        locations[7].setNeighbors(new City[]{locations[0], locations[11]});
-        // Recife
-        locations[8].setNeighbors(new City[]{locations[4], locations[3]});
-        // Goiânia
-        locations[9].setNeighbors(new City[]{locations[2]});
-        // Belém
-        locations[10].setNeighbors(new City[]{locations[3], locations[6]});
-        // Porto Alegre
-        locations[11].setNeighbors(new City[]{locations[7]});
+        // Neighbors (distâncias Euclidiana simples)
+
+        // São Paulo (0)
+        Map<City, Double> spNeighbors = new HashMap<>();
+        spNeighbors.put(locations[1], 3.52);  // Rio de Janeiro
+        spNeighbors.put(locations[5], 4.53);  // Belo Horizonte
+        spNeighbors.put(locations[7], 3.24);  // Curitiba
+        locations[0].setNeighbors(spNeighbors);
+
+        // Rio de Janeiro (1)
+        Map<City, Double> rjNeighbors = new HashMap<>();
+        rjNeighbors.put(locations[0], 3.52);  // São Paulo
+        rjNeighbors.put(locations[5], 3.09);  // Belo Horizonte
+        locations[1].setNeighbors(rjNeighbors);
+
+        // Brasília (2)
+        Map<City, Double> bsNeighbors = new HashMap<>();
+        bsNeighbors.put(locations[5], 5.71);  // Belo Horizonte
+        bsNeighbors.put(locations[9], 1.65);  // Goiânia
+        locations[2].setNeighbors(bsNeighbors);
+
+        // Fortaleza (3)
+        Map<City, Double> ftNeighbors = new HashMap<>();
+        ftNeighbors.put(locations[8], 5.67);  // Recife
+        ftNeighbors.put(locations[10], 10.20); // Belém
+        locations[3].setNeighbors(ftNeighbors);
+
+        // Salvador (4)
+        Map<City, Double> slNeighbors = new HashMap<>();
+        slNeighbors.put(locations[5], 8.81);  // Belo Horizonte
+        slNeighbors.put(locations[8], 6.12);  // Recife
+        locations[4].setNeighbors(slNeighbors);
+
+        // Belo Horizonte (5)
+        Map<City, Double> bhNeighbors = new HashMap<>();
+        bhNeighbors.put(locations[0], 4.53);  // São Paulo
+        bhNeighbors.put(locations[1], 3.09);  // Rio de Janeiro
+        bhNeighbors.put(locations[2], 5.71);  // Brasília
+        bhNeighbors.put(locations[4], 8.81);  // Salvador
+        locations[5].setNeighbors(bhNeighbors);
+
+        // Manaus (6)
+        Map<City, Double> mzNeighbors = new HashMap<>();
+        mzNeighbors.put(locations[10], 11.65); // Belém
+        locations[6].setNeighbors(mzNeighbors);
+
+        // Curitiba (7)
+        Map<City, Double> ctNeighbors = new HashMap<>();
+        ctNeighbors.put(locations[0], 3.24);  // São Paulo
+        ctNeighbors.put(locations[11], 5.00); // Porto Alegre
+        locations[7].setNeighbors(ctNeighbors);
+
+        // Recife (8)
+        Map<City, Double> rcNeighbors = new HashMap<>();
+        rcNeighbors.put(locations[4], 6.12);  // Salvador
+        rcNeighbors.put(locations[3], 5.67);  // Fortaleza
+        locations[8].setNeighbors(rcNeighbors);
+
+        // Goiânia (9)
+        Map<City, Double> gaNeighbors = new HashMap<>();
+        gaNeighbors.put(locations[2], 1.65);  // Brasília
+        locations[9].setNeighbors(gaNeighbors);
+
+        // Belém (10)
+        Map<City, Double> blmNeighbors = new HashMap<>();
+        blmNeighbors.put(locations[3], 10.20); // Fortaleza
+        blmNeighbors.put(locations[6], 11.65); // Manaus
+        locations[10].setNeighbors(blmNeighbors);
+
+        // Porto Alegre (11)
+        Map<City, Double> paNeighbors = new HashMap<>();
+        paNeighbors.put(locations[7], 5.00);  // Curitiba
+        locations[11].setNeighbors(paNeighbors);
+
 
         if (type.equals("random")) {
             Random random = new Random();

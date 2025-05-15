@@ -50,7 +50,7 @@ public class BreadthSearch {
         while (!queue.isEmpty()) {
             City current = queue.poll();
 
-            City[] neighbors = current.getNeighbors();
+            City[] neighbors = current.getNeighbors().keySet().toArray(new City[0]);
 
             if (current.equals(this.target)) {
                 reconstructPath(pathPrev, current);

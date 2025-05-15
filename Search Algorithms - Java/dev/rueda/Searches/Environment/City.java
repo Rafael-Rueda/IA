@@ -2,10 +2,12 @@ package dev.rueda.Searches.Environment;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.HashMap;
+import java.util.Map;
 
 public class City {
     private final String name;
-    private City[] neighbors;
+    private Map<City, Double> neighbors = new HashMap<>();
     private double distanceFromBeginning;
     private final int population;
     private final double area;
@@ -17,12 +19,10 @@ public class City {
         this.population = population;
         this.area = area;
         this.distanceFromBeginning = 0;
-        this.neighbors = new City[]{};
+        this.neighbors = new HashMap<>();
         this.x = x;
         this.y = y;
     }
-
-
 
     // Getters and Setters
     public String getName() {
@@ -41,11 +41,11 @@ public class City {
         return this.distanceFromBeginning;
     }
 
-    public City[] getNeighbors() {
+    public Map<City, Double> getNeighbors() {
         return this.neighbors;
     }
 
-    public void setNeighbors(City[] neighbors) {
+    public void setNeighbors(Map<City, Double> neighbors) {
         this.neighbors = neighbors;
     }
 
@@ -56,6 +56,10 @@ public class City {
 
         BigDecimal bd = new BigDecimal(rawDistance).setScale(2, RoundingMode.HALF_UP);
         this.distanceFromBeginning = bd.doubleValue();
+    }
+
+    public void setDistanceFromBeginning(double beginning) {
+        this.distanceFromBeginning = beginning;
     }
 
     // Overrides
